@@ -1,0 +1,284 @@
+<svg viewBox="0 0 1200 2400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#16213e;stop-opacity:1" />
+    </linearGradient>
+    
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="2400" fill="url(#bgGrad)"/>
+  
+  <!-- Title -->
+  <text x="600" y="50" font-family="Arial, sans-serif" font-size="36" font-weight="bold" fill="#ffffff" text-anchor="middle">
+    ADAS Pipeline Architecture
+  </text>
+  <text x="600" y="80" font-family="Arial, sans-serif" font-size="16" fill="#9ca3af" text-anchor="middle">
+    Multi-Threaded Real-Time Object Detection &amp; Threat Assessment
+  </text>
+  
+  <!-- Performance Badges -->
+  <g transform="translate(300, 100)">
+    <rect x="0" y="0" width="180" height="40" rx="20" fill="#10b981" opacity="0.2"/>
+    <text x="90" y="26" font-family="monospace" font-size="14" font-weight="bold" fill="#10b981" text-anchor="middle">31-35 FPS</text>
+  </g>
+  <g transform="translate(510, 100)">
+    <rect x="0" y="0" width="180" height="40" rx="20" fill="#3b82f6" opacity="0.2"/>
+    <text x="90" y="26" font-family="monospace" font-size="14" font-weight="bold" fill="#3b82f6" text-anchor="middle">28-32ms Latency</text>
+  </g>
+  <g transform="translate(720, 100)">
+    <rect x="0" y="0" width="180" height="40" rx="20" fill="#8b5cf6" opacity="0.2"/>
+    <text x="90" y="26" font-family="monospace" font-size="14" font-weight="bold" fill="#8b5cf6" text-anchor="middle">~7/8 GB VRAM</text>
+  </g>
+  
+  <!-- Stage 1: INPUT -->
+  <g transform="translate(100, 180)">
+    <rect width="1000" height="100" rx="10" fill="#1e3a8a" filter="url(#shadow)"/>
+    <rect x="0" y="95" width="1000" height="5" rx="2" fill="#3b82f6"/>
+    <circle cx="40" cy="50" r="20" fill="#3b82f6"/>
+    <text x="40" y="57" font-size="24" fill="#fff" text-anchor="middle">📹</text>
+    <text x="80" y="40" font-family="Arial" font-size="20" font-weight="bold" fill="#ffffff">INPUT</text>
+    <text x="80" y="60" font-family="Arial" font-size="14" fill="#9ca3af">Video Stream</text>
+    <text x="80" y="80" font-family="Arial" font-size="12" fill="#d1d5db">FHD 1920×1080 @ 30fps</text>
+    <text x="960" y="50" font-family="monospace" font-size="16" font-weight="bold" fill="#3b82f6" text-anchor="end">0ms</text>
+  </g>
+  
+  <!-- Arrow -->
+  <path d="M 600 280 L 600 320" stroke="#4b5563" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+      <polygon points="0 0, 10 5, 0 10" fill="#4b5563"/>
+    </marker>
+  </defs>
+  
+  <!-- Stage 2: PREPROCESSING -->
+  <g transform="translate(100, 330)">
+    <rect width="1000" height="120" rx="10" fill="#065f46" filter="url(#shadow)"/>
+    <rect x="0" y="115" width="1000" height="5" rx="2" fill="#10b981"/>
+    <circle cx="40" cy="60" r="20" fill="#10b981"/>
+    <text x="40" y="67" font-size="24" fill="#fff" text-anchor="middle">⚙️</text>
+    <text x="80" y="45" font-family="Arial" font-size="20" font-weight="bold" fill="#ffffff">PREPROCESSING</text>
+    <text x="80" y="65" font-family="Arial" font-size="14" fill="#9ca3af">Main Thread</text>
+    <text x="80" y="85" font-family="Arial" font-size="12" fill="#d1d5db">• Capture raw frame (1920×1080)</text>
+    <text x="80" y="102" font-family="Arial" font-size="12" fill="#d1d5db">• Resize to 1280×720 • Ring buffer (3 frames)</text>
+    <text x="960" y="60" font-family="monospace" font-size="16" font-weight="bold" fill="#10b981" text-anchor="end">~2ms</text>
+  </g>
+  
+  <!-- Arrow -->
+  <path d="M 600 450 L 600 490" stroke="#4b5563" stroke-width="3" marker-end="url(#arrowhead)"/>
+  
+  <!-- Stage 3: PARALLEL INFERENCE -->
+  <g transform="translate(100, 500)">
+    <rect width="1000" height="260" rx="10" fill="#581c87" filter="url(#shadow)"/>
+    <rect x="0" y="255" width="1000" height="5" rx="2" fill="#a855f7"/>
+    <circle cx="40" cy="40" r="20" fill="#a855f7"/>
+    <text x="40" y="47" font-size="24" fill="#fff" text-anchor="middle">⚡</text>
+    <text x="80" y="35" font-family="Arial" font-size="20" font-weight="bold" fill="#ffffff">PARALLEL INFERENCE</text>
+    <text x="80" y="55" font-family="Arial" font-size="14" fill="#9ca3af">5 Threads - All Running Simultaneously</text>
+    <text x="960" y="40" font-family="monospace" font-size="16" font-weight="bold" fill="#fbbf24" text-anchor="end">MAX ~15-16ms</text>
+    
+    <!-- 5 Parallel Threads -->
+    <g transform="translate(40, 80)">
+      <!-- Thread 1 -->
+      <rect x="0" y="0" width="180" height="150" rx="8" fill="#374151"/>
+      <text x="90" y="25" font-family="Arial" font-size="12" font-weight="bold" fill="#9ca3af" text-anchor="middle">THREAD 1</text>
+      <text x="90" y="50" font-family="Arial" font-size="18" font-weight="bold" fill="#ffffff" text-anchor="middle">CARS</text>
+      <text x="90" y="75" font-family="Arial" font-size="14" fill="#d1d5db" text-anchor="middle">YOLO n.pt</text>
+      <rect x="40" y="90" width="100" height="30" rx="5" fill="#a855f7"/>
+      <text x="90" y="110" font-family="monospace" font-size="12" font-weight="bold" fill="#fff" text-anchor="middle">GPU 15ms</text>
+      <text x="90" y="135" font-family="Arial" font-size="10" fill="#9ca3af" text-anchor="middle">Parallel Exec</text>
+      
+      <!-- Thread 2 -->
+      <rect x="196" y="0" width="180" height="150" rx="8" fill="#374151"/>
+      <text x="286" y="25" font-family="Arial" font-size="12" font-weight="bold" fill="#9ca3af" text-anchor="middle">THREAD 2</text>
+      <text x="286" y="50" font-family="Arial" font-size="18" font-weight="bold" fill="#ffffff" text-anchor="middle">LIGHTS</text>
+      <text x="286" y="75" font-family="Arial" font-size="14" fill="#d1d5db" text-anchor="middle">YOLO n.pt</text>
+      <rect x="236" y="90" width="100" height="30" rx="5" fill="#a855f7"/>
+      <text x="286" y="110" font-family="monospace" font-size="12" font-weight="bold" fill="#fff" text-anchor="middle">GPU 15ms</text>
+      <text x="286" y="135" font-family="Arial" font-size="10" fill="#9ca3af" text-anchor="middle">Parallel Exec</text>
+      
+      <!-- Thread 3 -->
+      <rect x="392" y="0" width="180" height="150" rx="8" fill="#374151"/>
+      <text x="482" y="25" font-family="Arial" font-size="12" font-weight="bold" fill="#9ca3af" text-anchor="middle">THREAD 3</text>
+      <text x="482" y="50" font-family="Arial" font-size="18" font-weight="bold" fill="#ffffff" text-anchor="middle">PERSONS</text>
+      <text x="482" y="75" font-family="Arial" font-size="14" fill="#d1d5db" text-anchor="middle">YOLO n.pt</text>
+      <rect x="432" y="90" width="100" height="30" rx="5" fill="#a855f7"/>
+      <text x="482" y="110" font-family="monospace" font-size="12" font-weight="bold" fill="#fff" text-anchor="middle">GPU 15ms</text>
+      <text x="482" y="135" font-family="Arial" font-size="10" fill="#9ca3af" text-anchor="middle">Parallel Exec</text>
+      
+      <!-- Thread 4 -->
+      <rect x="588" y="0" width="180" height="150" rx="8" fill="#374151"/>
+      <text x="678" y="25" font-family="Arial" font-size="12" font-weight="bold" fill="#9ca3af" text-anchor="middle">THREAD 4</text>
+      <text x="678" y="50" font-family="Arial" font-size="18" font-weight="bold" fill="#ffffff" text-anchor="middle">OBSTACLES</text>
+      <text x="678" y="75" font-family="Arial" font-size="14" fill="#d1d5db" text-anchor="middle">YOLO n.pt</text>
+      <rect x="628" y="90" width="100" height="30" rx="5" fill="#a855f7"/>
+      <text x="678" y="110" font-family="monospace" font-size="12" font-weight="bold" fill="#fff" text-anchor="middle">GPU 15ms</text>
+      <text x="678" y="135" font-family="Arial" font-size="10" fill="#9ca3af" text-anchor="middle">Parallel Exec</text>
+      
+      <!-- Thread 5 -->
+      <rect x="784" y="0" width="180" height="150" rx="8" fill="#374151"/>
+      <text x="874" y="25" font-family="Arial" font-size="12" font-weight="bold" fill="#9ca3af" text-anchor="middle">THREAD 5</text>
+      <text x="874" y="50" font-family="Arial" font-size="18" font-weight="bold" fill="#ffffff" text-anchor="middle">EGO-MOTION</text>
+      <text x="874" y="70" font-family="Arial" font-size="11" fill="#d1d5db" text-anchor="middle">egomotion.par</text>
+      <text x="874" y="88" font-family="Arial" font-size="10" fill="#d1d5db" text-anchor="middle">vx, vy, vz</text>
+      <text x="874" y="102" font-family="Arial" font-size="10" fill="#d1d5db" text-anchor="middle">ax, ay, az</text>
+      <text x="874" y="116" font-family="Arial" font-size="10" fill="#d1d5db" text-anchor="middle">curvature</text>
+      <rect x="824" y="125" width="100" height="20" rx="5" fill="#06b6d4"/>
+      <text x="874" y="139" font-family="monospace" font-size="11" font-weight="bold" fill="#fff" text-anchor="middle">CPU &lt;1ms</text>
+    </g>
+  </g>
+  
+  <!-- Arrow -->
+  <path d="M 600 760 L 600 800" stroke="#4b5563" stroke-width="3" marker-end="url(#arrowhead)"/>
+  
+  <!-- Stage 4: SYNCHRONIZATION -->
+  <g transform="translate(100, 810)">
+    <rect width="1000" height="80" rx="10" fill="#92400e" filter="url(#shadow)"/>
+    <rect x="0" y="75" width="1000" height="5" rx="2" fill="#f59e0b"/>
+    <circle cx="40" cy="40" r="20" fill="#f59e0b"/>
+    <text x="40" y="47" font-size="24" fill="#fff" text-anchor="middle">🔄</text>
+    <text x="80" y="35" font-family="Arial" font-size="20" font-weight="bold" fill="#ffffff">SYNCHRONIZATION POINT</text>
+    <text x="80" y="55" font-family="Arial" font-size="14" fill="#9ca3af">Join - Wait for all 5 threads</text>
+    <text x="960" y="40" font-family="monospace" font-size="16" font-weight="bold" fill="#fbbf24" text-anchor="end">~15-16ms</text>
+  </g>
+  
+  <!-- Arrow -->
+  <path d="M 600 890 L 600 930" stroke="#4b5563" stroke-width="3" marker-end="url(#arrowhead)"/>
+  
+  <!-- Stage 5: COLLECT RESULTS -->
+  <g transform="translate(100, 940)">
+    <rect width="1000" height="100" rx="10" fill="#164e63" filter="url(#shadow)"/>
+    <rect x="0" y="95" width="1000" height="5" rx="2" fill="#06b6d4"/>
+    <circle cx="40" cy="50" r="20" fill="#06b6d4"/>
+    <text x="40" y="57" font-size="24" fill="#fff" text-anchor="middle">📦</text>
+    <text x="80" y="40" font-family="Arial" font-size="20" font-weight="bold" fill="#ffffff">COLLECT RESULTS</text>
+    <text x="80" y="60" font-family="Arial" font-size="14" fill="#9ca3af">From Queues</text>
+    <text x="80" y="80" font-family="Arial" font-size="12" fill="#d1d5db">Cars, Lights, Persons, Obstacles [bbox, conf] + Ego-Motion data</text>
+    <text x="960" y="50" font-family="monospace" font-size="16" font-weight="bold" fill="#06b6d4" text-anchor="end">&lt;1ms</text>
+  </g>
+  
+  <!-- Arrow -->
+  <path d="M 600 1040 L 600 1080" stroke="#4b5563" stroke-width="3" marker-end="url(#arrowhead)"/>
+  
+  <!-- Stage 6: TRANSFORMER FUSION -->
+  <g transform="translate(100, 1090)">
+    <rect width="1000" height="110" rx="10" fill="#312e81" filter="url(#shadow)"/>
+    <rect x="0" y="105" width="1000" height="5" rx="2" fill="#6366f1"/>
+    <circle cx="40" cy="55" r="20" fill="#6366f1"/>
+    <text x="40" y="62" font-size="24" fill="#fff" text-anchor="middle">🧠</text>
+    <text x="80" y="45" font-family="Arial" font-size="20" font-weight="bold" fill="#ffffff">TRANSFORMER FUSION LAYER</text>
+    <text x="80" y="65" font-family="Arial" font-size="14" fill="#9ca3af">Attention-Based Aggregation</text>
+    <text x="80" y="85" font-family="Arial" font-size="12" fill="#d1d5db">Input: 4 detection sets → Output: Unified list</text>
+    <text x="80" y="100" font-family="Arial" font-size="12" fill="#d1d5db">Resolve conflicts (same object from multiple models)</text>
+    <text x="960" y="55" font-family="monospace" font-size="16" font-weight="bold" fill="#6366f1" text-anchor="end">~4-5ms</text>
+  </g>
+  
+  <!-- Arrow -->
+  <path d="M 600 1200 L 600 1240" stroke="#4b5563" stroke-width="3" marker-end="url(#arrowhead)"/>
+  
+  <!-- Stage 7: ZONE MAPPING -->
+  <g transform="translate(100, 1250)">
+    <rect width="1000" height="130" rx="10" fill="#115e59" filter="url(#shadow)"/>
+    <rect x="0" y="125" width="1000" height="5" rx="2" fill="#14b8a6"/>
+    <circle cx="40" cy="65" r="20" fill="#14b8a6"/>
+    <text x="40" y="72" font-size="24" fill="#fff" text-anchor="middle">🎯</text>
+    <text x="80" y="50" font-family="Arial" font-size="20" font-weight="bold" fill="#ffffff">ZONE MAPPING</text>
+    <text x="80" y="70" font-family="Arial" font-size="14" fill="#9ca3af">Map detections to 5 zones</text>
+    <text x="80" y="90" font-family="Arial" font-size="11" fill="#d1d5db">CRITICAL (0-30%) • WARNING (30-60%) • PERIPHERAL (60-100%)</text>
+    <text x="80" y="107" font-family="Arial" font-size="11" fill="#d1d5db">TOP (signals/signs) • SIDE (left/right edges, blind spots)</text>
+    <text x="960" y="65" font-family="monospace" font-size="16" font-weight="bold" fill="#14b8a6" text-anchor="end">~1-2ms</text>
+  </g>
+  
+  <!-- Arrow -->
+  <path d="M 600 1380 L 600 1420" stroke="#4b5563" stroke-width="3" marker-end="url(#arrowhead)"/>
+  
+  <!-- Stage 8: THREAT SCORING -->
+  <g transform="translate(100, 1430)">
+    <rect width="1000" height="140" rx="10" fill="#7f1d1d" filter="url(#shadow)"/>
+    <rect x="0" y="135" width="1000" height="5" rx="2" fill="#ef4444"/>
+    <circle cx="40" cy="70" r="20" fill="#ef4444"/>
+    <text x="40" y="77" font-size="24" fill="#fff" text-anchor="middle">⚠️</text>
+    <text x="80" y="55" font-family="Arial" font-size="20" font-weight="bold" fill="#ffffff">THREAT SCORING</text>
+    <text x="80" y="75" font-family="Arial" font-size="14" fill="#9ca3af">With Ego-Motion Integration</text>
+    <text x="80" y="95" font-family="Arial" font-size="11" fill="#d1d5db">threat = conf × zone × class × speed × maneuver</text>
+    <text x="80" y="110" font-family="Arial" font-size="11" fill="#d1d5db">speed_mult = 1.0 + min(v_kmh/30, 1) × 0.5</text>
+    <text x="80" y="125" font-family="Arial" font-size="11" fill="#d1d5db">maneuver_mult = 1.0-1.2 (brake) | 1.1-1.15 (curve)</text>
+    <text x="960" y="70" font-family="monospace" font-size="16" font-weight="bold" fill="#ef4444" text-anchor="end">~3-4ms</text>
+  </g>
+  
+  <!-- Arrow -->
+  <path d="M 600 1570 L 600 1610" stroke="#4b5563" stroke-width="3" marker-end="url(#arrowhead)"/>
+  
+  <!-- Stage 9: ALERT GENERATION -->
+  <g transform="translate(100, 1620)">
+    <rect width="1000" height="100" rx="10" fill="#713f12" filter="url(#shadow)"/>
+    <rect x="0" y="95" width="1000" height="5" rx="2" fill="#fbbf24"/>
+    <circle cx="40" cy="50" r="20" fill="#fbbf24"/>
+    <text x="40" y="57" font-size="24" fill="#fff" text-anchor="middle">🚨</text>
+    <text x="80" y="40" font-family="Arial" font-size="20" font-weight="bold" fill="#ffffff">ALERT GENERATION</text>
+    <text x="80" y="60" font-family="Arial" font-size="14" fill="#9ca3af">Safety Status Decision</text>
+    <text x="80" y="80" font-family="Arial" font-size="12" fill="#d1d5db">≥0.8: CRITICAL 🔴 | ≥0.6: WARNING 🟡 | &lt;0.6: SAFE 🟢</text>
+    <text x="960" y="50" font-family="monospace" font-size="16" font-weight="bold" fill="#fbbf24" text-anchor="end">&lt;1ms</text>
+  </g>
+  
+  <!-- Arrow -->
+  <path d="M 600 1720 L 600 1760" stroke="#4b5563" stroke-width="3" marker-end="url(#arrowhead)"/>
+  
+  <!-- Stage 10: VISUALIZATION -->
+  <g transform="translate(100, 1770)">
+    <rect width="1000" height="130" rx="10" fill="#831843" filter="url(#shadow)"/>
+    <rect x="0" y="125" width="1000" height="5" rx="2" fill="#ec4899"/>
+    <circle cx="40" cy="65" r="20" fill="#ec4899"/>
+    <text x="40" y="72" font-size="24" fill="#fff" text-anchor="middle">📊</text>
+    <text x="80" y="50" font-family="Arial" font-size="20" font-weight="bold" fill="#ffffff">VISUALIZATION + TELEMETRY</text>
+    <text x="80" y="70" font-family="Arial" font-size="14" fill="#9ca3af">Overlay on 1920×1080 frame</text>
+    <text x="80" y="90" font-family="Arial" font-size="11" fill="#d1d5db">Bounding boxes (color-coded) • Threat scores • Alert level</text>
+    <text x="80" y="107" font-family="Arial" font-size="11" fill="#d1d5db">Speed, Accel, Curvature • FPS • Latency • VRAM usage</text>
+    <text x="960" y="65" font-family="monospace" font-size="16" font-weight="bold" fill="#ec4899" text-anchor="end">~2-3ms</text>
+  </g>
+  
+  <!-- Arrow -->
+  <path d="M 600 1900 L 600 1940" stroke="#4b5563" stroke-width="3" marker-end="url(#arrowhead)"/>
+  
+  <!-- Stage 11: OUTPUT -->
+  <g transform="translate(100, 1950)">
+    <rect width="1000" height="100" rx="10" fill="#065f46" filter="url(#shadow)"/>
+    <rect x="0" y="95" width="1000" height="5" rx="2" fill="#10b981"/>
+    <circle cx="40" cy="50" r="20" fill="#10b981"/>
+    <text x="40" y="57" font-size="24" fill="#fff" text-anchor="middle">✅</text>
+    <text x="80" y="40" font-family="Arial" font-size="20" font-weight="bold" fill="#ffffff">OUTPUT</text>
+    <text x="80" y="60" font-family="Arial" font-size="14" fill="#9ca3af">Annotated Frame + Alert</text>
+    <text x="80" y="80" font-family="Arial" font-size="12" fill="#d1d5db">Total Latency: ~28-32ms | FPS: 31-35</text>
+    <text x="960" y="50" font-family="monospace" font-size="18" font-weight="bold" fill="#10b981" text-anchor="end">TOTAL ~28-32ms</text>
+  </g>
+  
+  <!-- Bottom Info Box -->
+  <g transform="translate(100, 2100)">
+    <rect width="1000" height="250" rx="10" fill="#1f2937" stroke="#4b5563" stroke-width="2"/>
+    <text x="500" y="35" font-family="Arial" font-size="18" font-weight="bold" fill="#ffffff" text-anchor="middle">PERFORMANCE SUMMARY</text>
+    
+    <rect x="50" y="60" width="280" height="80" rx="8" fill="#374151"/>
+    <text x="190" y="85" font-family="Arial" font-size="12" fill="#9ca3af" text-anchor="middle">GPU UTILIZATION</text>
+    <text x="190" y="110" font-family="Arial" font-size="20" font-weight="bold" fill="#a855f7" text-anchor="middle">4× YOLO Models</text>
+    <text x="190" y="130" font-family="Arial" font-size="11" fill="#6b7280" text-anchor="middle">Parallel Execution</text>
+    
+    <rect x="360" y="60" width="280" height="80" rx="8" fill="#374151"/>
+    <text x="500" y="85" font-family="Arial" font-size="12" fill="#9ca3af" text-anchor="middle">CRITICAL PATH</text>
+    <text x="500" y="110" font-family="Arial" font-size="20" font-weight="bold" fill="#fbbf24" text-anchor="middle">~15-16ms</text>
+    <text x="500" y="130" font-family="Arial" font-size="11" fill="#6b7280" text-anchor="middle">Max Thread Latency</text>
+    
+    <rect x="670" y="60" width="280" height="80" rx="8" fill="#374151"/>
+    <text x="810" y="85" font-family="Arial" font-size="12" fill="#9ca3af" text-anchor="middle">RESOLUTION</text>
+    <text x="810" y="110" font-family="Arial" font-size="20" font-weight="bold" fill="#06b6d4" text-anchor="middle">1280×720</text>
+    <text x="810" y="130" font-family="Arial" font-size="11" fill="#6b7280" text-anchor="middle">Training Resolution</text>
+    
+    <!-- Legend -->
+    <text x="50" y="175" font-family="Arial" font-size="14" font-weight="bold" fill="#ffffff">PIPELINE STAGES LEGEND:</text>
+    <text x="50" y="200" font-family="Arial" font-size="11" fill="#d1d5db">🔵 Input/Output • 🟢 CPU Processing • 🟣 GPU Inference • 🔴 Threat Assessment • 🟡 Alert Gen • 🟠 Sync</text>
+    <text x="50" y="220" font-family="Arial" font-size="11" fill="#9ca3af">Design optimized for real-time autonomous driving safety systems with sub-35ms response time</text>
+  </g>
+</svg>
