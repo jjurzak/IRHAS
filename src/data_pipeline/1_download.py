@@ -27,7 +27,7 @@ else:
     )
     print("downloaded telemetry")
 
-video_zip = f"{raw_dir}/camera/camera_front_wide_120fov/camera_front_wide_120fov.chunk_0000.zip"
+video_zip = f"{raw_dir}/camera/camera_front_wide_120fov/camera_front_wide_120fov.chunk_0000.zip"  # noqa: E501
 
 if os.path.exists(video_zip):
     print("video already downloaded, skip")
