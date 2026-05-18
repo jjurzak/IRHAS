@@ -140,4 +140,4 @@ for frame_idx in sample_frames:
     print(f"  frame {frame_idx:>4} (t={frame_t_us/1e6:>5.1f}s): {len(snapshot)} objs in window, {drawn} drawn")
 
 cap.release()
-print(f"\ndone — saved frames to {output_dir}")
+print(f"\ndone - saved frames to {output_dir}")
